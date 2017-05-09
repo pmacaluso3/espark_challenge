@@ -1,7 +1,7 @@
 require 'csv'
 
 module StudentScoreParser
-  STUDENT_TESTS_FILENAME = 'student_tests.csv'.freeze
+  STUDENT_TESTS_FILENAME = 'student_tests.csv'
 
   def self.parse(filename = STUDENT_TESTS_FILENAME)
     student_scores = []
