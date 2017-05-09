@@ -2,7 +2,7 @@ require 'pry'
 
 def lib_and_spec_paths
   filename = ARGV[1]
-  project_root = __FILE__.gsub(/\/Rakefile\z/, '')
+  project_root = File.expand_path('..', __FILE__)
 
   lib_path = File.join(project_root, "lib/#{filename}.rb")
   spec_path = File.join(project_root, "spec/#{filename}_spec.rb")

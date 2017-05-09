@@ -1,7 +1,7 @@
 require 'csv'
 
 module StudentScoreParser
-  STUDENT_TESTS_FILENAME = 'student_tests.csv'
+  STUDENT_TESTS_FILENAME = File.expand_path('../../data/student_tests.csv', __FILE__)
 
   def self.parse(filename = STUDENT_TESTS_FILENAME)
     student_scores = []
@@ -11,3 +11,6 @@ module StudentScoreParser
     student_scores
   end
 end
+
+puts StudentScoreParser::STUDENT_TESTS_FILENAME
+puts File.read StudentScoreParser::STUDENT_TESTS_FILENAME

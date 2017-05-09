@@ -1,7 +1,7 @@
 require 'pry'
 
 def app_root
-  __FILE__.gsub(/\/spec\/support\/spec_helper\.rb\z/, '')
+  File.expand_path('../../..', __FILE__)
 end
 
 lib_files = Dir.glob("#{app_root}/lib/*.rb")
