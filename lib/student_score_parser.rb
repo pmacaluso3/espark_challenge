@@ -11,6 +11,3 @@ module StudentScoreParser
     student_scores
   end
 end
-
-puts StudentScoreParser::STUDENT_TESTS_FILENAME
-puts File.read StudentScoreParser::STUDENT_TESTS_FILENAME

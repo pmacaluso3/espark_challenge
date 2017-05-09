@@ -10,16 +10,20 @@ class StudentScore < OpenStruct
   end
 
   def weakest_domain
-    domains.each do |k, v|
-      return k if v == weakest_domain_score
+    domain_scores.each do |k, v|
+      return domain_string(k, v) if v == weakest_domain_score
     end
   end
 
-  def domains
+  def domain_scores
     each_pair.reject { |k, v| NON_DOMAIN_HEADERS.include?(k) }.to_h
   end
 
   private
+  def domain_string(domain, grade)
+    "#{grade}.#{domain}"
+  end
+
   def sanitize_args(args)
     sanitized_args = {}
     args.each do |k, v|
@@ -37,6 +41,6 @@ class StudentScore < OpenStruct
   end
 
   def weakest_domain_score
-    domains.values.min
+    domain_scores.values.min
   end
 end

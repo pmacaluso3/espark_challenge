@@ -12,13 +12,13 @@ describe StudentScore do
       end
 
       it 'rejects non-domain keys' do
-        student_score.domains.keys.each do |key|
+        student_score.domain_scores.keys.each do |key|
           expect(StudentScore::NON_DOMAIN_HEADERS.include?(key)).to be false
         end
       end
 
       it 'keeps domain keys' do
-        expect(student_score.domains.keys).to eq([:rf, :rl])
+        expect(student_score.domain_scores.keys).to eq([:rf, :rl])
       end
     end
 
@@ -28,7 +28,7 @@ describe StudentScore do
       end
 
       it 'contains numeric scores' do
-        expect(student_score.domains).to eq({rf: 2, rl: 3})
+        expect(student_score.domain_scores).to eq({rf: 2, rl: 3})
       end
     end
 
@@ -38,7 +38,7 @@ describe StudentScore do
       end
 
       it 'converts them to their numeric equivalents' do
-        expect(student_score.domains).to eq({rf: 0, rl: 3})
+        expect(student_score.domain_scores).to eq({rf: 0, rl: 3})
       end
     end
   end
@@ -50,7 +50,7 @@ describe StudentScore do
       end
 
       it 'returns the domain with the lowest score' do
-        expect(student_score.weakest_domain).to eq(:rl)
+        expect(student_score.weakest_domain).to eq('1.rl')
       end
     end
 
@@ -60,7 +60,7 @@ describe StudentScore do
       end
 
       it 'returns the first domain tied for lowest score' do
-        expect(student_score.weakest_domain).to eq(:rl)
+        expect(student_score.weakest_domain).to eq('1.rl')
       end
     end
   end

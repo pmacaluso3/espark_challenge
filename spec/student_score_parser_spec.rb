@@ -14,9 +14,7 @@ describe StudentScoreParser do
       end
     end
 
-    before(:each) do
-      reset_test_csv(test_filename)
-    end
+    before(:each) { reset_test_csv(test_filename) }
 
     it 'returns an array of StudentScore objects' do
       expect(student_scores).to be_a(Array)
