@@ -1,7 +1,8 @@
 require 'ostruct'
+require_relative 'key_sanitizable'
+
 class StudentScore < OpenStruct
   NON_DOMAIN_HEADERS = [:student_name]
-  NON_NUMERIC_SCORES = { 'K' => 0 }
 
   include KeySanitizable
 
@@ -30,14 +31,6 @@ class StudentScore < OpenStruct
       sanitized_args[sanitize_key(k)] = convert_non_numeric_score(v)
     end
     sanitized_args
-  end
-
-  def convert_non_numeric_score(score)
-    if NON_NUMERIC_SCORES[score]
-      NON_NUMERIC_SCORES[score]
-    else
-      score.to_i
-    end
   end
 
   def weakest_domain_score
