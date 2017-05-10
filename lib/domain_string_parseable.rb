@@ -5,7 +5,7 @@ module DomainStringParseable
     [grade.to_i, domain.to_sym]
   end
 
-  def domain_string(domain, grade)
+  def make_domain_string(domain, grade)
     "#{grade}.#{domain}"
   end
 end

@@ -45,7 +45,7 @@ describe DomainOrder do
       })
     end
     let(:valid_domain_string) { '1.ri' }
-    let(:invalid_domain_string) { '1.l' }
+    let(:nonexistant_domain_string) { '1.l' }
 
     describe 'when a domain string is valid' do
       it 'returns true' do
@@ -53,9 +53,9 @@ describe DomainOrder do
       end
     end
 
-    describe 'when a domain string is invalid' do
+    describe 'when a domain string represents a nonexistant domain' do
       it 'returns false' do
-        expect(domain_order.valid_domain?(invalid_domain_string)).to be false
+        expect(domain_order.valid_domain?(nonexistant_domain_string)).to be false
       end
     end
   end

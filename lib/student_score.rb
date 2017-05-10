@@ -18,7 +18,7 @@ class StudentScore < OpenStruct
     _grade, domain_name = parse_domain_string(dom_str)
     new_grade = self[domain_name] + 1
     send("#{domain_name}=", new_grade)
-    domain_string(domain_name, new_grade)
+    make_domain_string(domain_name, new_grade)
   end
 
   # the common core info leads me to believe that all domains are contiguous
@@ -31,7 +31,7 @@ class StudentScore < OpenStruct
 
   def weakest_domain
     domain_scores.each do |k, v|
-      return domain_string(k, v) if v == weakest_domain_score
+      return make_domain_string(k, v) if v == weakest_domain_score
     end
   end
 
