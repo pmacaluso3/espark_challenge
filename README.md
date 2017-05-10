@@ -1,3 +1,9 @@
+Usage instructions:
+1. Clone this repo locally and `cd` into its root.
+1. Run `bundle install`.
+1. To generate learning paths, run `bundle exec rake make_learning_paths`. The output will be stored in data/learning_paths.csv by default. See the Rakefile for details on how to specify alternate input or output files.
+1. To run specs, run `bundle exec rspec`.
+
 == Setup ==
 
 Our mission is to provide the best learning experiences to students, personalized
