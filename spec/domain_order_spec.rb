@@ -60,7 +60,7 @@ describe DomainOrder do
     end
   end
 
-  describe '#domain_can_be_advanced?' do
+  describe '#finished?' do
     let(:domain_order) do
       described_class.new({
         '3' => ['RF', 'RL', 'RI', 'L'],
@@ -68,19 +68,19 @@ describe DomainOrder do
       })
     end
 
-    describe 'when the given domain exists at the following grade' do
-      let(:advanceable_domain_string) { '3.rl' }
+    describe 'when the current grade is the end of this domain track' do
+      let(:terminal_domain_string) { '3.rf' }
 
       it 'returns true' do
-        expect(domain_order.domain_can_be_advanced?(advanceable_domain_string)).to be true
+        expect(domain_order.finished?(terminal_domain_string)).to be true
       end
     end
 
     describe 'when the given domain exists at the following grade' do
-      let(:unadvanceable_domain_string) { '3.rf' }
+      let(:continuing_domain_string) { '3.ri' }
 
       it 'returns false' do
-        expect(domain_order.domain_can_be_advanced?(unadvanceable_domain_string)).to be false
+        expect(domain_order.finished?(continuing_domain_string)).to be false
       end
     end
   end

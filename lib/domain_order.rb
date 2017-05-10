@@ -21,14 +21,15 @@ class DomainOrder
 
   def valid_domain?(dom_str)
     grade, domain = parse_domain_string(dom_str)
-    !!domains_for_grade(grade.to_i).include?(domain.to_sym)
+    return false unless domains_for_grade(grade)
+    !!domains_for_grade(grade).include?(domain)
   end
 
-  def domain_can_be_advanced?(dom_str)
+  def finished?(dom_str)
     grade, domain_name = parse_domain_string(dom_str)
     potential_advanced_grade = grade + 1
     potential_new_domain = make_domain_string(domain_name, potential_advanced_grade)
-    valid_domain?(potential_new_domain)
+    !valid_domain?(potential_new_domain)
   end
 
   private

@@ -15,10 +15,10 @@ class StudentScore < OpenStruct
 
   def advance_domain!(dom_str)
     check_current_domain!(dom_str)
-    _grade, domain_name = parse_domain_string(dom_str)
+    grade, domain_name = parse_domain_string(dom_str)
     new_grade = self[domain_name] + 1
     send("#{domain_name}=", new_grade)
-    make_domain_string(domain_name, new_grade)
+    make_domain_string(domain_name, grade)
   end
 
   # the common core info leads me to believe that all domains are contiguous
@@ -39,11 +39,19 @@ class StudentScore < OpenStruct
     each_pair.reject { |k, v| NON_DOMAIN_HEADERS.include?(k) }.to_h
   end
 
+  def any_domains_incomplete?(scores = domain_scores)
+    scores.values.any? { |s| s < COMPLETION_SCORE }
+  end
+
   private
   def sanitize_args(args)
     sanitized_args = {}
     args.each do |k, v|
-      sanitized_args[sanitize_key(k)] = convert_non_numeric_score(v)
+      if NON_DOMAIN_HEADERS.include?(sanitize_key(k))
+        sanitized_args[sanitize_key(k)] = v
+      else
+        sanitized_args[sanitize_key(k)] = convert_non_numeric_score(v)
+      end
     end
     sanitized_args
   end
