@@ -8,6 +8,8 @@ class LearningPathGenerator
   def initialize(student_score, domain_order)
     @student_score = student_score
     @domain_order = domain_order
+    ensure_min_scores!
+    ensure_completed!
   end
 
   def next_unit
@@ -29,17 +31,45 @@ class LearningPathGenerator
     path.compact.join(',')
   end
 
+  def ensure_min_scores!
+    student_score.domain_scores.each do |domain, score|
+      if below_grade_level?(make_domain_string(domain, score))
+        student_score[domain] = lowest_grade_for_domain(domain)
+      end
+    end
+  end
+
+  def ensure_completed!
+    student_score.domain_scores.each do |domain, score|
+      if above_grade_level?(make_domain_string(domain, score))
+        student_score.complete_domain!(make_domain_string(domain, score))
+      end
+    end
+  end
+
   private
   def domain_can_be_advanced?(dom_str)
     domain_order.domain_can_be_advanced?(dom_str)
   end
 
-  def valid_domain?(dom_str)
-    domain_order.valid_domain?(dom_str)
-  end
-
   def finished?(dom_str)
     domain_order.finished?(dom_str)
+  end
+
+  def lowest_grade_for_domain(domain_name)
+    domain_order.lowest_grade_for_domain(domain_name)
+  end
+
+  def below_grade_level?(dom_str)
+    domain_order.below_grade_level?(dom_str)
+  end
+
+  def highet_grade_for_domain(domain_name)
+    domain_order.highet_grade_for_domain(domain_name)
+  end
+
+  def above_grade_level?(dom_str)
+    domain_order.above_grade_level?(dom_str)
   end
 
   def weakest_domain

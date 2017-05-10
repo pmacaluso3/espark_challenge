@@ -32,6 +32,30 @@ class DomainOrder
     !valid_domain?(potential_new_domain)
   end
 
+  def lowest_grade_for_domain(domain_name)
+    order.each do |grade_level, domains|
+      return grade_level if domains.include?(domain_name)
+    end
+    nil
+  end
+
+  def highest_grade_for_domain(domain_name)
+    order.reverse_each do |grade_level, domains|
+      return grade_level if domains.include?(domain_name)
+    end
+    nil
+  end
+
+  def below_grade_level?(dom_str)
+    grade, domain_name = parse_domain_string(dom_str)
+    grade < lowest_grade_for_domain(domain_name)
+  end
+
+  def above_grade_level?(dom_str)
+    grade, domain_name = parse_domain_string(dom_str)
+    grade > highest_grade_for_domain(domain_name)
+  end
+
   private
   def sanitize_args(args)
     sanitized_args = {}

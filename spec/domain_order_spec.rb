@@ -84,4 +84,62 @@ describe DomainOrder do
       end
     end
   end
+
+  describe '#lowest_grade_for_domain' do
+    let(:domain_order) do
+      described_class.new({
+        '1'=>['RF', 'RL', 'RI'],
+        '2'=>['RF', 'RI', 'RL', 'L']
+      })
+    end
+
+    describe 'when the domain exists in at least one grade' do
+      describe 'when the domain exists for the first available grade' do
+        it 'returns that grade' do
+          expect(domain_order.lowest_grade_for_domain(:rf)).to eq(1)
+        end
+      end
+
+      describe 'when the domain does not exist for the first available grade' do
+        it 'returns the lowest grade for which it exists' do
+          expect(domain_order.lowest_grade_for_domain(:l)).to eq(2)
+        end
+      end
+    end
+
+    describe 'when the domain does not exist at all' do
+      it 'returns nil' do
+        expect(domain_order.lowest_grade_for_domain(:x)).to be nil
+      end
+    end
+  end
+
+  describe '#highest_grade_for_domain' do
+    let(:domain_order) do
+      described_class.new({
+        '3' => ['RF', 'RL', 'RI', 'L'],
+        '4' => ['RI', 'RL', 'L']
+      })
+    end
+
+    describe 'when the domain exists in at least one grade' do
+      describe 'when the domain exists for the first available grade' do
+        it 'returns that grade' do
+          expect(domain_order.highest_grade_for_domain(:l)).to eq(4)
+        end
+      end
+
+      describe 'when the domain does not exist for the first available grade' do
+        it 'returns the highest grade for which it exists' do
+          expect(domain_order.highest_grade_for_domain(:rf)).to eq(3)
+        end
+      end
+    end
+
+    describe 'when the domain does not exist at all' do
+      it 'returns nil' do
+        expect(domain_order.lowest_grade_for_domain(:x)).to be nil
+      end
+    end
+  end
 end

@@ -66,7 +66,6 @@ describe LearningPathGenerator do
         it 'returns the newly advanced domain string for the learning path' do
           expect(learning_path_generator.next_unit).to eq('3.RF')
         end
-        # TODO: when a student's weakest unit is K.L, they should get advanced to 2.L
         # TODO: test the 2-to-3 RL/RI order switch
       end
     end
@@ -83,9 +82,7 @@ describe LearningPathGenerator do
           'L' => ''
         })
       end
-      # let(:expected_learning_path) { 'Albin Stanton,K.RF,K.RL,K.RI,1.RF,1.RL' }
-      # TODO: the commented out version is what it would look like if it could tell that there's no K.L
-      let(:expected_learning_path) { 'Albin Stanton,K.RF,K.RL,K.RI,K.L,1.RF' }
+      let(:expected_learning_path) { 'Albin Stanton,K.RF,K.RL,K.RI,1.RF,1.RL' }
 
       it 'starts the student from the beginning' do
           expect(learning_path_generator.learning_path).to eq(expected_learning_path)
@@ -117,14 +114,12 @@ describe LearningPathGenerator do
           StudentScore.new({
             'Student Name' => 'Albin Stanton',
             'RF' => '6',
-            'RL' => '6',
             'RI' => '6',
+            'RL' => '6',
             'L' => '6'
           })
         end
-        # let(:expected_learning_path) { 'Albin Stanton,6.RI,6.RL' }
-        # TODO: the above is what it should get if it knew that there was no 6.RF and no 6.L
-        let(:expected_learning_path) { 'Albin Stanton,6.RF,6.RL,6.RI,6.L' }
+        let(:expected_learning_path) { 'Albin Stanton,6.RI,6.RL' }
 
         it 'assigns the student the remaining units and then quits' do
           expect(learning_path_generator.learning_path).to eq(expected_learning_path)
