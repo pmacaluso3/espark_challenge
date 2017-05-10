@@ -19,9 +19,16 @@ class DomainOrder
     order[grade]
   end
 
-  def valid_domain?(domain_string)
-    grade, domain = parse_domain_string(domain_string)
+  def valid_domain?(dom_str)
+    grade, domain = parse_domain_string(dom_str)
     !!domains_for_grade(grade.to_i).include?(domain.to_sym)
+  end
+
+  def domain_can_be_advanced?(dom_str)
+    grade, domain_name = parse_domain_string(dom_str)
+    potential_advanced_grade = grade + 1
+    potential_new_domain = domain_string(domain_name, potential_advanced_grade)
+    valid_domain?(potential_new_domain)
   end
 
   private

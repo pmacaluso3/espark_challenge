@@ -70,43 +70,44 @@ describe StudentScore do
       described_class.new({ 'RF' => '2', 'RL' => '3' })
     end
 
-    describe 'when given a valid domain string' do
-      let(:valid_domain_string) { '2.rl' }
-
-      it 'increments the score for the given domain by 1' do
-        expect{ student_score.advance_domain!(valid_domain_string) }.to change{ student_score.rl }.by(1)
+    describe 'when trying to advance a domain that the student is not on' do
+      let(:invalid_domain_string) { '5.rl' }
+      it 'raises an InvalidDomainError' do
+        expect{ student_score.advance_domain!(invalid_domain_string) }.to raise_error(StudentScore::InvalidDomainError)
       end
     end
 
-    describe 'when given just the name of a domain' do
-      let(:invalid_domain_string) { '2.rl' }
+    describe 'when advancing a domain the student is on' do
+      let(:dom_str) { '2.rf' }
 
       it 'increments the score for the given domain by 1' do
-        expect{ student_score.advance_domain!(invalid_domain_string) }.to change{ student_score.rl }.by(1)
+        expect{ student_score.advance_domain!(dom_str) }.to change{ student_score.rf }.by(1)
+      end
+
+      it 'returns the newly advanced domain' do
+        expect(student_score.advance_domain!(dom_str)).to eq('3.rf')
       end
     end
   end
 
   describe '#complete_domain!' do
     let(:student_score) do
-      described_class.new({ 'RF' => '2', 'RL' => '3' })
+      described_class.new({ 'RI' => '2', 'RL' => '3' })
     end
 
-    describe 'when given a valid domain string' do
-      let(:valid_domain_to_complete) { '2.rf' }
-
-      it 'sets the grade level for the domain to an arbitrarily high level' do
-       student_score.complete_domain!(valid_domain_to_complete)
-       expect(student_score.rf).to eq(StudentScore::COMPLETION_SCORE)
+    describe 'when trying to complete a domain that the student is not on' do
+      let(:invalid_domain_string) { '5.rl' }
+      it 'raises an InvalidDomainError' do
+        expect{ student_score.complete_domain!(invalid_domain_string) }.to raise_error(StudentScore::InvalidDomainError)
       end
     end
 
-    describe 'when given just the name of a domain' do
-      let(:invalid_domain_to_complete) { 'rf' }
+    describe 'when completing a domain that the student is on' do
+      let(:domain_to_complete) { '2.ri' }
 
       it 'sets the grade level for the domain to an arbitrarily high level' do
-       student_score.complete_domain!(invalid_domain_to_complete)
-       expect(student_score.rf).to eq(StudentScore::COMPLETION_SCORE)
+       student_score.complete_domain!(domain_to_complete)
+       expect(student_score.ri).to eq(StudentScore::COMPLETION_SCORE)
       end
     end
   end

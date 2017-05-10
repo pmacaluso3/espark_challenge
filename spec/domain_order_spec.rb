@@ -60,4 +60,28 @@ describe DomainOrder do
     end
   end
 
+  describe '#domain_can_be_advanced?' do
+    let(:domain_order) do
+      described_class.new({
+        '3' => ['RF', 'RL', 'RI', 'L'],
+        '4' => ['RI', 'RL', 'L']
+      })
+    end
+
+    describe 'when the given domain exists at the following grade' do
+      let(:advanceable_domain_string) { '3.rl' }
+
+      it 'returns true' do
+        expect(domain_order.domain_can_be_advanced?(advanceable_domain_string)).to be true
+      end
+    end
+
+    describe 'when the given domain exists at the following grade' do
+      let(:unadvanceable_domain_string) { '3.rf' }
+
+      it 'returns false' do
+        expect(domain_order.domain_can_be_advanced?(unadvanceable_domain_string)).to be false
+      end
+    end
+  end
 end

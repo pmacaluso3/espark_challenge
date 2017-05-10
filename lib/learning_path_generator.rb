@@ -16,16 +16,20 @@ class LearningPathGenerator
     end
   end
 
-  def domain_can_be_advanced?(domain_string)
-    domain_order.valid_domain_string?(weakest_domain)
-  end
-
   private
   def weakest_domain
     student_score.weakest_domain
   end
 
-  def method_name
+  def domain_can_be_advanced?(dom_str)
+    domain_order.domain_can_be_advanced?(dom_str)
+  end
 
+  def advance_domain!(dom_str)
+    student_score.advance_domain!(dom_str)
+  end
+
+  def complete_domain!(dom_str)
+    student_score.complete_domain!(dom_str)
   end
 end
