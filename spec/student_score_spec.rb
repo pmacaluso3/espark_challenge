@@ -65,4 +65,49 @@ describe StudentScore do
     end
   end
 
+  describe 'advance_domain!' do
+    let(:student_score) do
+      described_class.new({ 'RF' => '2', 'RL' => '3' })
+    end
+
+    describe 'when given a valid domain string' do
+      let(:valid_domain_string) { '2.rl' }
+
+      it 'increments the score for the given domain by 1' do
+        expect{ student_score.advance_domain!(valid_domain_string) }.to change{ student_score.rl }.by(1)
+      end
+    end
+
+    describe 'when given just the name of a domain' do
+      let(:invalid_domain_string) { '2.rl' }
+
+      it 'increments the score for the given domain by 1' do
+        expect{ student_score.advance_domain!(invalid_domain_string) }.to change{ student_score.rl }.by(1)
+      end
+    end
+  end
+
+  describe '#complete_domain!' do
+    let(:student_score) do
+      described_class.new({ 'RF' => '2', 'RL' => '3' })
+    end
+
+    describe 'when given a valid domain string' do
+      let(:valid_domain_to_complete) { '2.rf' }
+
+      it 'sets the grade level for the domain to an arbitrarily high level' do
+       student_score.complete_domain!(valid_domain_to_complete)
+       expect(student_score.rf).to eq(StudentScore::COMPLETION_SCORE)
+      end
+    end
+
+    describe 'when given just the name of a domain' do
+      let(:invalid_domain_to_complete) { 'rf' }
+
+      it 'sets the grade level for the domain to an arbitrarily high level' do
+       student_score.complete_domain!(invalid_domain_to_complete)
+       expect(student_score.rf).to eq(StudentScore::COMPLETION_SCORE)
+      end
+    end
+  end
 end

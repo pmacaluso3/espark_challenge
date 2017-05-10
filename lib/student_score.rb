@@ -1,13 +1,29 @@
 require 'ostruct'
 require_relative 'key_sanitizable'
+require_relative 'domain_string_parseable'
 
 class StudentScore < OpenStruct
   NON_DOMAIN_HEADERS = [:student_name]
+  COMPLETION_SCORE = 100
 
   include KeySanitizable
+  include DomainStringParseable
 
   def initialize(args = {})
     super(sanitize_args(args))
+  end
+
+  def advance_domain!(domain_string)
+    _grade, domain_name = parse_domain_string(domain_string)
+    new_grade = self[domain_name] + 1
+    send("#{domain_name}=", new_grade)
+  end
+
+  # the common core info leads me to believe that all domains are contiguous
+  # so, if I'm on 2.RF and there's no 3.RF, I can assume I'm done with RF forever
+  def complete_domain!(domain_string)
+    _grade, domain_name = parse_domain_string(domain_string)
+    send("#{domain_name}=", COMPLETION_SCORE)
   end
 
   def weakest_domain

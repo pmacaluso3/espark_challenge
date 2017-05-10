@@ -1,9 +1,11 @@
 require_relative 'key_sanitizable'
+require_relative 'domain_string_parseable'
 
 class DomainOrder
   attr_reader :order
 
   include KeySanitizable
+  include DomainStringParseable
 
   def initialize(args = {})
     @order = sanitize_args(args)
@@ -18,7 +20,7 @@ class DomainOrder
   end
 
   def valid_domain?(domain_string)
-    grade, domain = domain_string.split('.')
+    grade, domain = parse_domain_string(domain_string)
     !!domains_for_grade(grade.to_i).include?(domain.to_sym)
   end
 
