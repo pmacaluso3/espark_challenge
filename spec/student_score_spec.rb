@@ -43,28 +43,6 @@ describe StudentScore do
     end
   end
 
-  describe '#weakest_domain' do
-    describe 'when there is no tie for lowest' do
-      let(:student_score) do
-        described_class.new({ 'RF' => '3', 'RL' => '1' })
-      end
-
-      it 'returns the domain with the lowest score' do
-        expect(student_score.weakest_domain).to eq('1.rl')
-      end
-    end
-
-    describe 'when there is a tie for lowest' do
-      let(:student_score) do
-        described_class.new({ 'RF' => '3', 'RL' => '1', 'RI' => '1' })
-      end
-
-      it 'returns the first domain tied for lowest score' do
-        expect(student_score.weakest_domain).to eq('1.rl')
-      end
-    end
-  end
-
   describe 'advance_domain!' do
     let(:student_score) do
       described_class.new({ 'RF' => '2', 'RL' => '3' })

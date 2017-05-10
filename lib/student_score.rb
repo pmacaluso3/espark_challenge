@@ -29,10 +29,9 @@ class StudentScore < OpenStruct
     send("#{domain_name}=", COMPLETION_SCORE)
   end
 
-  def weakest_domain
-    domain_scores.each do |k, v|
-      return make_domain_string(k, v) if v == weakest_domain_score
-    end
+  def can_improve_on?(dom_str)
+    grade, domain_name = parse_domain_string(dom_str)
+    self[domain_name] == grade
   end
 
   def domain_scores
@@ -54,10 +53,6 @@ class StudentScore < OpenStruct
       end
     end
     sanitized_args
-  end
-
-  def weakest_domain_score
-    domain_scores.values.min
   end
 
   class InvalidDomainError < StandardError

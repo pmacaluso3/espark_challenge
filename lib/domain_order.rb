@@ -56,6 +56,16 @@ class DomainOrder
     grade > highest_grade_for_domain(domain_name)
   end
 
+  def expanded_domains
+    expansion = []
+    order.each do |grade, domains|
+      domains.each do |domain|
+        expansion << make_domain_string(domain, grade)
+      end
+    end
+    expansion
+  end
+
   private
   def sanitize_args(args)
     sanitized_args = {}

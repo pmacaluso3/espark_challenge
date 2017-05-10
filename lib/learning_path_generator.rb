@@ -14,11 +14,11 @@ class LearningPathGenerator
 
   def next_unit
     return nil unless any_domains_incomplete?
-    completed_unit = weakest_domain
-    if finished?(weakest_domain)
-      complete_domain!(weakest_domain)
+    completed_unit = next_unit_to_improve
+    if finished?(next_unit_to_improve)
+      complete_domain!(next_unit_to_improve)
     else
-      advance_domain!(weakest_domain)
+      advance_domain!(next_unit_to_improve)
     end
     print_format(completed_unit)
   end
@@ -47,6 +47,12 @@ class LearningPathGenerator
     end
   end
 
+  def next_unit_to_improve
+    domain_order.expanded_domains.each do |unit|
+      return unit if student_score.can_improve_on?(unit)
+    end
+  end
+
   private
   def domain_can_be_advanced?(dom_str)
     domain_order.domain_can_be_advanced?(dom_str)
@@ -70,10 +76,6 @@ class LearningPathGenerator
 
   def above_grade_level?(dom_str)
     domain_order.above_grade_level?(dom_str)
-  end
-
-  def weakest_domain
-    student_score.weakest_domain
   end
 
   def advance_domain!(dom_str)

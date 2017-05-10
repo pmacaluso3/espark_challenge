@@ -142,4 +142,18 @@ describe DomainOrder do
       end
     end
   end
+
+  describe '#expanded_domains' do
+    let(:domain_order) do
+      described_class.new({
+        '1'=>['RF', 'RL', 'RI'],
+        '2'=>['RF', 'RI', 'RL', 'L']
+      })
+    end
+    let(:expected_expansion) { ['1.rf', '1.rl', '1.ri', '2.rf', '2.ri', '2.rl', '2.l'] }
+
+    it 'expands the domain order correctly' do
+      expect(domain_order.expanded_domains).to eq(expected_expansion)
+    end
+  end
 end

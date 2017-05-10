@@ -66,7 +66,6 @@ describe LearningPathGenerator do
         it 'returns the newly advanced domain string for the learning path' do
           expect(learning_path_generator.next_unit).to eq('3.RF')
         end
-        # TODO: test the 2-to-3 RL/RI order switch
       end
     end
   end
@@ -125,6 +124,21 @@ describe LearningPathGenerator do
           expect(learning_path_generator.learning_path).to eq(expected_learning_path)
         end
       end
+    end
+  end
+
+  describe '#next_unit_to_improve' do
+    let(:student_score) do
+      StudentScore.new({
+        'RF' => '2',
+        'RL' => '3',
+        'RI' => 'K',
+        'L' => '3'
+      })
+    end
+
+    it 'returns the next unit in the domain order that the student should work on' do
+      expect(learning_path_generator.next_unit_to_improve).to eq('0.ri')
     end
   end
 end
